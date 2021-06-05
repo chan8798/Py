@@ -1,0 +1,976 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "ch5_exercises.ipynb",
+      "provenance": [],
+      "collapsed_sections": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/chan8798/Py/blob/master/ch5/ch5_exercises.pyPA18\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ovY5jkD5dpxE"
+      },
+      "source": [
+        "## ch5_exercises.pyPA18"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "SZw6UnxQWYBe"
+      },
+      "source": [
+        "## Q1.\n",
+        "> 다음은 Calculator 클래스이다.\n",
+        "\n",
+        "```\n",
+        "class Calculator:\n",
+        "    def __init__(self):\n",
+        "        self.value = 0\n",
+        "\n",
+        "    def add(self, val):\n",
+        "        self.value += val\n",
+        "```\n",
+        "---\n",
+        "> 위 클래스를 상속하는 UpgradeCalculator를 만들고 값을 뺄 수 있는 minus 메서드를 추가해 보자. \n",
+        ">> 즉 다음과 같이 동작하는 클래스를 만들어야 한다.\n",
+        "```\n",
+        "cal = UpgradeCalculator()\n",
+        "cal.add(10)\n",
+        "cal.minus(7)\n",
+        "print(cal.value) # 10에서 7을 뺀 3을 출력\n",
+        "```\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rUNNaqJPdg7B",
+        "outputId": "8eeba118-fbc5-4a1a-fdda-884173c4007f",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q1] Code  \n",
+        "class Calculator:\n",
+        "    def __init__(self):    # 클래스 초기화 \n",
+        "        self.value = 0     # self의 값을 0으로 초기화\n",
+        " \n",
+        "    def add(self, val):    \n",
+        "        self.value += val  # self.value에 받는 값을 누적하여 더함\n",
+        "\n",
+        "class UpgradeCalculator(Calculator):   # Calculator 클래스를 상속하는 클래스 UpgradeCalculator\n",
+        "    def minus(self, val):\n",
+        "        self.value -= val  # self.value에 받는 값을 누적하여 뻄\n",
+        "\n",
+        "cal = UpgradeCalculator()  # cal에  UpgradeCalculator 호출\n",
+        "cal.add(10)                # add함수에 값을 10을 넣고 실행\n",
+        "cal.minus(7)               # minus함수에 값을 7을 넣고 실행\n",
+        "print(cal.value) # 10에서 7을 뺀 3을 출력\n"
+      ],
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "3\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "re2-XrUYXF1m"
+      },
+      "source": [
+        "## Q2.\n",
+        "> 객체변수 value가 100 이상의 값은 가질 수 없도록 제한하는 MaxLimitCalculator 클래스를 만들어 보자. \n",
+        ">> 즉 다음과 같이 동작해야 한다.\n",
+        "```\n",
+        "cal = MaxLimitCalculator()\n",
+        "cal.add(50) # 50 더하기\n",
+        "cal.add(60) # 60 더하기\n",
+        "print(cal.value) # 100 출력\n",
+        "```\n",
+        ">> 단 반드시 다음과 같은 Calculator 클래스를 상속해서 만들어야 한다.\n",
+        "```\n",
+        "class Calculator:\n",
+        "    def __init__(self):\n",
+        "        self.value = 0\n",
+        "    def add(self, val):\n",
+        "        self.value += val\n",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5MBLUZ5WXF1q",
+        "outputId": "7b25f921-b5e7-4039-ec82-f73dd74ffa64",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q2] Code\n",
+        "class Calculator:\n",
+        "    def __init__(self):        # 클래스 초기화\n",
+        "        self.value = 0         # self의 값을 0으로 초기화\n",
+        "    def add(self, val):\n",
+        "        self.value += val      # self.value에 받는 값을 누적하여 더함\n",
+        "\n",
+        "class MaxLimitCalculator(Calculator):  # Calculator 클래스를 상속하는 클래스 MaxLimitCalculator\n",
+        "    def add(self, val):       # 메서드 오버라이딩을 이용해 부모클래스의 동일한 이름의 함수를 재생성\n",
+        "        self.value += val     # self.value에 받는 값을 누적하여 더함\n",
+        "        if self.value > 100:  # 만일 self.value내의 값이 100\n",
+        "          self.value = 100\n",
+        "          print(\"최대 숫자는 100을 넘을 수 없습니다.\",)\n",
+        "\n",
+        "\n",
+        "\n",
+        "cal = MaxLimitCalculator()   # cal에  UpgradeCalculator 호출\n",
+        "cal.add(50) # 50 더하기\n",
+        "cal.add(60) # 60 더하기\n",
+        "print(cal.value) # 100 출력\n",
+        "\n"
+      ],
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "최대 숫자는 100을 넘을 수 없습니다.\n",
+            "100\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "UZy8lu_BXGnT"
+      },
+      "source": [
+        "## Q3.\n",
+        "> 다음 결과를 예측해 보자.\n",
+        "\n",
+        "- 하나.\n",
+        "```\n",
+        "all([1, 2, abs(-3)-3])\n",
+        "```\n",
+        "\n",
+        "- 둘.\n",
+        "```\n",
+        "chr(ord('a')) == 'a'\n",
+        "```"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "H9T_sXHzXGnW",
+        "outputId": "3a01318f-e341-4c1b-ad51-081384fed192",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q3] Code 하나\n",
+        "print(abs(-3))\n",
+        "all([1, 2, abs(-3)-3])\n",
+        "# abs함수는 받은 숫자를 절댓값으로 돌려준다.\n",
+        "# all 함수는 iterable 내의 모든 요소가 참(True)일 경우 True를\n",
+        "# 모든요소 중 하나라도 거짓(False)일 경우 False를 출력하는데 위의 상황은 \n",
+        "# abs함수로 -3의 정수인 3이 된 숫자가 리스트내에서 3-3으로 연산되고 그값으로 0이 되어 \n",
+        "# 리스트 내에는 [1,2,0]이라는 숫자가 남게 되는데 파이썬은 숫자 0은 거짓(False)으로 취급\n",
+        "# 하기 때문에 False가 출력된다.\n"
+      ],
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "3\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "False"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 3
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DhiwI31yO6K5",
+        "outputId": "58aa9bde-3cd7-48d8-cc96-c612026bd122",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "\n",
+        "# [Q3] Code 둘\n",
+        "print(ord('a'))\n",
+        "print(chr(97))\n",
+        "chr(ord('a')) == 'a'\n",
+        "# chr함수는 아스키코드 값을 받으면 그 값에 해당하는 문자 출력\n",
+        "# ord함수는 받은 문자를 아스키코드로 출력\n",
+        "# ord('a')에서 'a'를 아스키코드 97로 변환 해주고 chr(97)에서 다시 문자 'a'로 변환 해주기 때문에 참(True)가 출력 된다."
+      ],
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "97\n",
+            "a\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 4
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "fqypxxqTXHY7"
+      },
+      "source": [
+        "## Q4.\n",
+        "> filter와 lambda를 사용하여 리스트 [1, -2, 3, -5, 8, -3]에서 음수를 모두 제거해 보자."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "oQ5UnmayXHY-",
+        "outputId": "fa479953-3101-411c-f7ba-915982dbfb25",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q4] Code\n",
+        "numbers = [1, -2, 3 ,-5, 8, -3]\n",
+        "list(filter(lambda num:num>0,numbers))\n",
+        "\n",
+        "# lambda 인자:표현식  의 형식으로 사용\n",
+        "\n",
+        "# filter 함수는 filter(함수명,[앞의 함수에 들어가는 반복가능자료형])의 형식으로 사용하며\n",
+        "# 두 번째 인수인 자료형이 첫 번째 인수인 함수에 입력되었을 때 반환 값이 참인 것만 묶어서 반환\n"
+      ],
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[1, 3, 8]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 5
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "NKsvciXZXIL-"
+      },
+      "source": [
+        "## Q5.\n",
+        "> 234라는 10진수의 16진수는 다음과 같이 구할 수 있다.\n",
+        "```\n",
+        "hex(234)\n",
+        "'0xea'\n",
+        "```\n",
+        "> 이번에는 반대로 16진수 문자열 0xea를 10진수로 변경해 보자.\n",
+        ">>※ 내장 함수 int를 활용해 보자.\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5MZQYOVjXIL_",
+        "outputId": "a8276193-e8f4-481d-9273-0809b9716105",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q5] Code\n",
+        "int('0xea',16) # int('16진수',16)은 16진수로 표현되어있는 값을\n",
+        "               # 10진수로 변환 해준다.\n"
+      ],
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "234"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 6
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-3KHtOOoXJBV"
+      },
+      "source": [
+        "## Q6.\n",
+        "> map과 lambda를 사용하여 [1, 2, 3, 4] 리스트의 각 요솟값에 3이 곱해진 리스트 [3, 6, 9, 12]를 만들어 보자.\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "AjYR0lUaXJBa",
+        "outputId": "99e52b51-c43e-4e25-f204-d46f235e5454",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q6] Code\n",
+        "numbers =  [1, 2, 3, 4]\n",
+        "list(map(lambda x:x*3,numbers))\n",
+        "# map(함수, 반복가능자료형)의 형식으로 사용하며\n",
+        "# 입력받은 자료형의 각 요소를 함수가 수행한 결과를 묶어서 돌려줌\n"
+      ],
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[3, 6, 9, 12]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "YrS3b88QbmKo"
+      },
+      "source": [
+        "## Q7.\n",
+        "> 다음 리스트의 최댓값과 최솟값의 합을 구해 보자.\n",
+        ">> [-8, 2, 7, 5, -3, 5, 0, 1]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Ll_2InMWbmKq",
+        "outputId": "54fa2ec6-f9e2-4731-b4fc-7854c09563fd",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q7] Code\n",
+        "List = [-8, 2, 7, 5, -3, 5, 0, 1]\n",
+        "max(List) + min(List)\n",
+        "# max(반복가능자료형)의 형식으로 사용\n",
+        "# 받은 자료형의 가장 큰 값을 돌려줌\n",
+        "\n",
+        "# min(반복가능자료형)의 형식으로 사용\n",
+        "# 받은 자료형의 가장 작은 값을 돌려줌\n"
+      ],
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "-1"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8zgHYTaiPPXq",
+        "outputId": "f2bbdad1-5413-45fb-c581-af3853baf93d",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "List = [-8, 2, 7, 5, -3, 5, 0, 1]\n",
+        "count = 0\n",
+        "while count < 4:                 # count가 4 이하이면 반복\n",
+        "  count += 1                     # while 문이 반복 할 때마다 count+1\n",
+        "  print(max(List) + min(List))   # List내의 최대값과 최소값을 더한값을 출력\n",
+        "  List.remove(max(List))         # List내의 최대값 제거\n",
+        "  List.remove(min(List))         # List내의 최소값 제거"
+      ],
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "-1\n",
+            "2\n",
+            "5\n",
+            "3\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Llpe6JQ2PUVU",
+        "outputId": "a4755e42-58e5-4f62-e4e9-7bb39e7012b9",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "List = [-8, 2, 7, 5, -3, 5, 0, 1] \n",
+        "List.sort()                               # List내의 숫자 정렬\n",
+        "maximum = 0\n",
+        "least = 7\n",
+        "\n",
+        "while maximum < len(List)/2:             # maximum의 값이 len(List)/2 (4)의 값보다 작을 경우 반복 \n",
+        "  print(List[maximum]+List[least])       # List내의 maximum(0+n)자리의 수와 least(7-n)자리의 수를 더한 값을 출력\n",
+        "  maximum += 1                           # maximum의 값 1증가\n",
+        "  least -= 1                             # least의 값 1감소"
+      ],
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "-1\n",
+            "2\n",
+            "5\n",
+            "3\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "OcSDHHYkK6lZ"
+      },
+      "source": [
+        "## Q8.\n",
+        "> 17 / 3의 결과는 다음과 같다.\n",
+        "```\n",
+        "17 / 3\n",
+        "5.666666666666667\n",
+        "```\n",
+        "> 위와 같은 결괏값 5.666666666666667을 소숫점 4자리까지만 반올림하여 표시해 보자."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GmaaVGqrK6le",
+        "outputId": "c82730f3-e2b0-4824-e34f-79df1827914f",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q8] Code\n",
+        "round(17/3,4)\n",
+        "# round(임의의숫자, 소숫점자리])의 형식으로 사용\n",
+        "# 숫자를 입력받아 원하는 소숫점에서 반올림 해줌\n"
+      ],
+      "execution_count": 11,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "5.6667"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 11
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5vA-QRhUPYz4",
+        "outputId": "bcf78984-d140-47bc-8fdd-bc50bb472d63",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "num=17/3\n",
+        "print(\"%.4f\"%num)"
+      ],
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "5.6667\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "anwB_DjuK60j"
+      },
+      "source": [
+        "## Q9.\n",
+        "> 다음과 같이 실행할 때 입력값을 모두 더하여 출력하는 스크립트\n",
+        "\n",
+        "> (C:\\doit\\myargv.py)를 작성해 보자.\n",
+        "```\n",
+        "C:\\> cd doit\n",
+        "C:\\doit> python myargv.py 1 2 3 4 5 6 7 8 9 10\n",
+        "55\n",
+        "```\n",
+        ">> ※ 외장 함수 sys.argv를 사용해 보자."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QJTNoSqtMrIM",
+        "outputId": "5a95ca07-b003-4bd3-9ac3-fc64c578f310",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 223
+        }
+      },
+      "source": [
+        "# [Q9] Code\n",
+        "import sys\n",
+        "numbers = sys.argv[1:]  # sys.argv[0]은 입력받은 값중에서 파이썬 프로그램의\n",
+        "                        # 이름인 python_myargv.py 이기 때문에 제외 해준다.\n",
+        "Sum = 0                 # Sum 값 초기화\n",
+        "for number in numbers: \n",
+        "    Sum += int(number)  # Sum에 number의 값들을 누적하여 더함\n",
+        "print(\"입력하신 숫자의 합은 %d 입니다.\"%Sum)\n"
+      ],
+      "execution_count": 21,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ValueError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mValueError\u001b[0m                                Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-21-e4c7835692e6>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0mSum\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m0\u001b[0m                 \u001b[0;31m# Sum 값 초기화\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mnumber\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mnumbers\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 7\u001b[0;31m     \u001b[0mSum\u001b[0m \u001b[0;34m+=\u001b[0m \u001b[0mint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mnumber\u001b[0m\u001b[0;34m)\u001b[0m  \u001b[0;31m# Sum에 number의 값들을 누적하여 더함\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      8\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"입력하신 숫자의 합은 %d 입니다.\"\u001b[0m\u001b[0;34m%\u001b[0m\u001b[0mSum\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mValueError\u001b[0m: invalid literal for int() with base 10: '-f'"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZpruGVo1QnkR",
+        "outputId": "4abeefb7-10cc-4152-f660-11ab9dd6987b",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "run doit/python_myargv.py 1 2 3 4 5 6 7 8 9 10"
+      ],
+      "execution_count": 22,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "ERROR:root:File `'doit/python_myargv.py'` not found.\n"
+          ],
+          "name": "stderr"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "PVA_-b0TK7Ai"
+      },
+      "source": [
+        "## Q10.\n",
+        "> os 모듈을 사용하여 다음과 같이 동작하도록 코드를 작성해 보자.\n",
+        "\n",
+        "1. ./doit 디렉터리로 이동한다.\n",
+        "2. dir 명령을 실행하고 그 결과를 변수에 담는다.\n",
+        "3. dir 명령의 결과를 출력한다."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XCnUj3obMr3v",
+        "outputId": "1e819499-a180-4914-ff14-341967d3cf11",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 241
+        }
+      },
+      "source": [
+        "# [Q10] Code\n",
+        "import os\n",
+        "\n",
+        "os.chdir(\"/content/doit\")  # chdir을 사용하여 /content/doit 라는 디렉터리로 이동\n",
+        "var = os.popen(\"dir\")   # popen을 사용하여 시스템 명령어인 dir명령을 실행후 그 결과를 변수에 담음\n",
+        "print(var.read())       # 변수 출력\n"
+      ],
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "FileNotFoundError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mFileNotFoundError\u001b[0m                         Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-13-1e6ca228d9e3>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mos\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m \u001b[0mos\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mchdir\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"/content/doit\"\u001b[0m\u001b[0;34m)\u001b[0m  \u001b[0;31m# chdir을 사용하여 /content/doit 라는 디렉터리로 이동\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      5\u001b[0m \u001b[0mvar\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mos\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mpopen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"dir\"\u001b[0m\u001b[0;34m)\u001b[0m   \u001b[0;31m# popen을 사용하여 시스템 명령어인 dir명령을 실행후 그 결과를 변수에 담음\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mvar\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m       \u001b[0;31m# 변수 출력\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mFileNotFoundError\u001b[0m: [Errno 2] No such file or directory: '/content/doit'"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wPYEFAY6TOtQ",
+        "outputId": "b5294faa-af18-4519-a7cd-be107ea19b8b",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 35
+        }
+      },
+      "source": [
+        "%pwd"
+      ],
+      "execution_count": 23,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            },
+            "text/plain": [
+              "'/content'"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 23
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "8xQf6xJ4K7M_"
+      },
+      "source": [
+        "## Q11.\n",
+        "> glob 모듈을 사용하여 ./doit 디렉터리의 파일 중 확장자가 .py인 파일만 출력하는 프로그램을 작성해 보자."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "UCO7aRh5Msx6",
+        "outputId": "d0ade33e-edf8-4707-b7e4-249551ea5365",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q11] Code\n",
+        "import glob  # glob 모듈 사용\n",
+        "glob.glob(\"/content/doit/*.py\")\n"
+      ],
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 24
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Q6QYCZ9HM3DW"
+      },
+      "source": [
+        "## Q12.\n",
+        "> time 모듈을 사용하여 현재 날짜와 시간을 다음과 같은 형식으로 출력해 보자.\n",
+        "\n",
+        "- 2018/04/03 17:20:32"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "80vm6aSMM3gf",
+        "outputId": "c598dccf-f8b4-46d8-9267-a921e9ab3062",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 35
+        }
+      },
+      "source": [
+        "# [Q12] Code\n",
+        "import time\n",
+        "\n",
+        "time.strftime(\"%Y/%m/%d %H:%M:%S\")\n",
+        "# %Y 년도 출력\n",
+        "# %m 월 출력\n",
+        "# %d 일 출력\n",
+        "# %H 시간 출력\n",
+        "# %M 분 출력\n",
+        "# %S 초 출력\n"
+      ],
+      "execution_count": 14,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            },
+            "text/plain": [
+              "'2021/06/05 03:37:04'"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 14
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "x2IYgozSM3gd"
+      },
+      "source": [
+        "## Q13.\n",
+        "> random 모듈을 사용하여 로또 번호(1~45 사이의 숫자 6개)를 생성해 보자(단 중복된 숫자가 있으면 안 됨)."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "FiKNOu9HM3DX",
+        "outputId": "db730b67-d330-4677-f5fd-c8286e53a85d",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "# [Q13] Code\n",
+        "import random\n",
+        "lotto = []                         # lotto 리스트 생성\n",
+        "\n",
+        "while len(lotto) < 6:              # len(lotto)가 6 보다 작으면 반복\n",
+        "   numbers = random.randint(1, 45) # 1~45의 숫자중 하나를 반환\n",
+        "   if numbers not in lotto:        # 반환한 숫자가 리스트 lotto에 포함되지 않을 경우\n",
+        "       lotto.append(numbers)       # 반환한 숫자를 리스트 lotto에 추가\n",
+        "       print(numbers, end=' ')     # 반환한 숫자 출력\n"
+      ],
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "23 24 14 45 39 21 "
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pw5qXIJ4PyLN",
+        "outputId": "2aa9347c-3d2a-4cf8-d403-1664b207319c",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "import random\n",
+        "def random_pop(data):\n",
+        "    number = random.randint(0, len(data)-1)  # 0에서 len(data)-1 까지의 숫자중 하나 반환\n",
+        "    return data.pop(number)                  # 반환된 숫자 위치에있는 data리스트의 숫자를 꺼내서 반환\n",
+        "count = 0                                    # count 초기화\n",
+        "\n",
+        "if __name__ == \"__main__\":\n",
+        "    data = list(range(1,46))                 # data에 1부터45까지의 숫자 리스트 생성\n",
+        "    while count < 6:                         # 6번 반복\n",
+        "       count += 1\n",
+        "       print(random_pop(data), end=\" \")      # 반환된 숫자 출력"
+      ],
+      "execution_count": 16,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "40 12 6 4 44 21 "
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Om9zrHvKP08E",
+        "outputId": "7e02134a-67aa-4f29-fc72-d4841b5a6ef8",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "source": [
+        "def random_pop(data):\n",
+        "    number = random.choice(data)  # data리스트중 랜덤한 숫자 반환\n",
+        "    data.remove(number)           # 위의 반환된 number을 data리스트에서 제거\n",
+        "    return number                 # number 반환\n",
+        "count = 0                         # count 초기화\n",
+        "\n",
+        "if __name__ == \"__main__\":\n",
+        "    data = list(range(1,46))      # data에 1부터45까지의 숫자 리스트 생성\n",
+        "    while count < 6:              # 6번 반복\n",
+        "       count += 1\n",
+        "       print(random_pop(data), end=\" \") # 반환된 숫자 출력"
+      ],
+      "execution_count": 17,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "20 41 26 12 16 9 "
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "2ljBDShkbqZO"
+      },
+      "source": [
+        "## 코딩 연습 결과를 github에 올리기\n",
+        "> 완성된 ipython 노트북 파일을 각자의 github에 올리시오.\n",
+        "\n",
+        "- github 계정 만들기 (계정이 없는 학생)\n",
+        "    1. github에 sign up (Google gmail 계정을 이용해서 만드시오.)\n",
+        "- github에 노트 올리기\n",
+        "    2. github에 각자의 id로 repo를 만드시오. (한번 만들면 계속 재사용)\n",
+        "    3. github repo에 연습결과 노트를 올리시오.\n",
+        "        - 제출노트: ch5_exercises_id.ipynb\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "OnCR-YNCc8B6"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
